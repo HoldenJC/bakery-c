@@ -121,17 +121,24 @@ namespace Bakery
 
       if( (BreadOrder.Count) / 2 >= 1  )
       {
-        if(BreadOrder.Count % 2 == 0)
+        if((BreadOrder.Count % 2 == 0 || (BreadOrder.Count / 2) % 2 == 0) && BreadOrder.Count != 4)
         {
           BreadOrder.Add(addBreads(itemChoice));
         }
         breadDiscount = (BreadOrder.Count / 2) - 1;
+        if((BreadOrder.Count / 2) - 1 == 0)
+        {
+          breadDiscount = 1;
+        }
         breadTotal = (BreadOrder.Count * 5) - (breadDiscount * 5);
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Your order qualifies for one of our sales!"); 
+        Console.WriteLine("Your bread order qualifies for one of our sales!"); 
         System.Threading.Thread.Sleep(1000);
-        Console.WriteLine("You have received " + (breadDiscount - BreadOrder.Count - originalBread) + " breads from your order for free, plus " + (BreadOrder.Count - originalBread) + " extra!");
+        Console.WriteLine("You have received " + (((originalBread*5)/5) - (breadTotal/5)) + " breads from your order for free, plus " + (BreadOrder.Count - originalBread) + " extra!");
         Console.ResetColor();
+      } else
+      {
+        breadTotal = (BreadOrder.Count * 5);
       }
         
       Console.WriteLine("Total breads you are getting: " + BreadOrder.Count); 
@@ -144,10 +151,13 @@ namespace Bakery
         pastryDiscount = PastryOrder.Count / 3;
         pastryTotal -= pastryDiscount;
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Your order qualifies for one of our sales!"); 
+        Console.WriteLine("Your pastry order qualifies for one of our sales!"); 
         System.Threading.Thread.Sleep(1000);
         Console.WriteLine("You have received $" + pastryDiscount + " off your order for buying " + PastryOrder.Count + " pastries!");
         Console.ResetColor();
+      } else
+      {
+        pastryTotal = PastryOrder.Count * 2;
       }
 
       Console.WriteLine("Total pastries you are getting: " + PastryOrder.Count); 
@@ -155,7 +165,9 @@ namespace Bakery
 
       System.Threading.Thread.Sleep(2000);
       finalTotal = breadTotal + pastryTotal;
+      Console.ForegroundColor = ConsoleColor.Yellow;
       Console.WriteLine("---------------------------------");
+      Console.ResetColor();
       Console.WriteLine("Complete order: " + BreadOrder.Count + " bread and " + PastryOrder.Count + " pastry");
       Console.WriteLine("Total cost: $" + finalTotal);
 
