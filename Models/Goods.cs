@@ -3,24 +3,20 @@ namespace Bakery.Goods
   class Breads
   {
     public string Bread { get; set; }
-    public int BreadCost { get; set; }
 
-    public Breads()
+    public Breads(string bread)
     {
-      Bread = "bread";
-      BreadCost = 5;
+      Bread = bread;
     }
   }
 
   class Pastries
   {
     public string Pastry { get; set; }
-    public int PastryCost { get; set; }
 
-    public Pastries()
+    public Pastries(string pastry)
     {
-      Pastry = "pastry";
-      PastryCost = 2;
+      Pastry = pastry;
     }
 
   }

@@ -11,6 +11,14 @@ namespace Bakery
     public static void Main()
     {
       bool shopping = true;
+      int breadTotal = 0;
+      int pastryTotal = 0;
+      int finalTotal = 0; 
+      string userOrder = "Current order: ";
+      string itemChoice = "";
+      string itemNumber = "";
+      List<Breads> BreadOrder = new List<Breads>();
+      List<Pastries> PastryOrder = new List<Pastries>();
      
       Console.BackgroundColor = ConsoleColor.DarkGreen;
       Console.ForegroundColor = ConsoleColor.White;
@@ -34,9 +42,7 @@ namespace Bakery
 
       while(shopping == true)
       {
-        string itemChoice;
-        string itemNumber;
-        int itemNumberParsed;
+        int itemNumberParsed = 0;
         string continueShop;
         bool stringCheck = false;
         bool intCheck = false;
@@ -53,16 +59,17 @@ namespace Bakery
         {
           while(intCheck == false)
           {
-            Console.WriteLine("How many would you like to add to your order?:");
+            Console.WriteLine("How many would you like to add to your order? (numerical values only):");
             itemNumber = Console.ReadLine();
             if(Regex.IsMatch(itemNumber, @"^\d+$") == false)
             {
               Console.ForegroundColor = ConsoleColor.Red;
-              Console.WriteLine("Please enter a valid choice.");
+              Console.WriteLine("Please enter a valid input.");
               Console.ResetColor();
             } else
             {
               itemNumberParsed = int.Parse(itemNumber);
+              userOrder += itemNumber + " " + itemChoice;
               intCheck = true;
             }
           }
@@ -76,6 +83,7 @@ namespace Bakery
           {
             stringCheck = true;
             shopping = true;
+            userOrder += ", ";
           } else if (continueShop == "n")
           {
             stringCheck = true;
@@ -83,21 +91,87 @@ namespace Bakery
          } else 
           {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Please enter a valid input ( 'y' or 'n' )");
+            Console.WriteLine("Please enter a valid choice.");
             Console.ResetColor();
           }
         }
-        
+        Console.WriteLine(userOrder);
 
+        if(itemChoice == "bread")
+        {
+          for(int i = 0; i < itemNumberParsed; i++)
+          {
+            BreadOrder.Add(addBreads(itemChoice));
+            Console.WriteLine(BreadOrder[i].Bread);
+          }
+        } else if(itemChoice == "pastry")
+        {
+          for(int j = 0; j < itemNumberParsed; j++)
+          {
+            PastryOrder.Add(addPastries(itemChoice));
+            Console.WriteLine(PastryOrder[j].Pastry);
+          }
+        }
 
 
       } 
+      int breadDiscount = 0;
+      int originalBread = BreadOrder.Count;
+      pastryTotal = PastryOrder.Count * 2;
+
+      if( (BreadOrder.Count) / 2 >= 1  )
+      {
+        if(BreadOrder.Count % 2 == 0)
+        {
+          BreadOrder.Add(addBreads(itemChoice));
+        }
+        breadDiscount = (BreadOrder.Count / 2) - 1;
+        breadTotal = (BreadOrder.Count * 5) - (breadDiscount * 5);
+        Console.WriteLine("Your order qualifies for one of our sales!"); 
+        System.Threading.Thread.Sleep(1000);
+        Console.WriteLine("You have received " + (breadDiscount - BreadOrder.Count - originalBread) + " breads from your order for free, plus " + (BreadOrder.Count - originalBread) + " extra!");
+      }
         
+        Console.WriteLine("Total breads you are getting: " + BreadOrder.Count + " (" + breadDiscount + " are free)."); 
+        Console.WriteLine("Bread order total cost: " + breadTotal);
+      
+        System.Threading.Thread.Sleep(2000);
+        if( (PastryOrder.Count) / 3 >= 1  )
+        {
+          int pastryDiscount;
+          pastryDiscount = PastryOrder.Count / 3;
+          pastryTotal -= pastryDiscount;
+          Console.WriteLine("Your order qualifies for one of our sales!"); 
+        System.Threading.Thread.Sleep(1000);
+        }
+
+        
+        Console.WriteLine("Pastry order total cost: " + pastryTotal);
+        Console.WriteLine("Order total cost: " + finalTotal);
+
+        finalTotal = breadTotal + pastryTotal;
+
+
+      }
+
+      
+
+      static Breads addBreads(string item)
+      {
+        Breads bread = new Breads(item);
+        return bread;
+      }
+
+      static Pastries addPastries(string item)
+      {
+        Pastries pastry = new Pastries(item);
+        return pastry;
+      }  
+      
+
 
     }
 
+
   }
-
-
-}
 
