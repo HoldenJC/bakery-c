@@ -18,6 +18,5 @@ namespace Bakery.Goods
     {
       Pastry = pastry;
     }
-
   }
 }

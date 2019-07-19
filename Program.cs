@@ -127,51 +127,56 @@ namespace Bakery
         }
         breadDiscount = (BreadOrder.Count / 2) - 1;
         breadTotal = (BreadOrder.Count * 5) - (breadDiscount * 5);
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Your order qualifies for one of our sales!"); 
         System.Threading.Thread.Sleep(1000);
         Console.WriteLine("You have received " + (breadDiscount - BreadOrder.Count - originalBread) + " breads from your order for free, plus " + (BreadOrder.Count - originalBread) + " extra!");
+        Console.ResetColor();
       }
         
-        Console.WriteLine("Total breads you are getting: " + BreadOrder.Count + " (" + breadDiscount + " are free)."); 
-        Console.WriteLine("Bread order total cost: " + breadTotal);
-      
-        System.Threading.Thread.Sleep(2000);
-        if( (PastryOrder.Count) / 3 >= 1  )
-        {
-          int pastryDiscount;
-          pastryDiscount = PastryOrder.Count / 3;
-          pastryTotal -= pastryDiscount;
-          Console.WriteLine("Your order qualifies for one of our sales!"); 
+      Console.WriteLine("Total breads you are getting: " + BreadOrder.Count); 
+      Console.WriteLine("Bread order total cost: $" + breadTotal);
+    
+      System.Threading.Thread.Sleep(2000);
+      if( (PastryOrder.Count) / 3 >= 1  )
+      {
+        int pastryDiscount;
+        pastryDiscount = PastryOrder.Count / 3;
+        pastryTotal -= pastryDiscount;
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Your order qualifies for one of our sales!"); 
         System.Threading.Thread.Sleep(1000);
-        }
-
-        
-        Console.WriteLine("Pastry order total cost: " + pastryTotal);
-        Console.WriteLine("Order total cost: " + finalTotal);
-
-        finalTotal = breadTotal + pastryTotal;
-
-
+        Console.WriteLine("You have received $" + pastryDiscount + " off your order for buying " + PastryOrder.Count + " pastries!");
+        Console.ResetColor();
       }
 
-      
+      Console.WriteLine("Total pastries you are getting: " + PastryOrder.Count); 
+      Console.WriteLine("Pastry order total cost: $" + pastryTotal);
 
-      static Breads addBreads(string item)
-      {
-        Breads bread = new Breads(item);
-        return bread;
-      }
+      System.Threading.Thread.Sleep(2000);
+      finalTotal = breadTotal + pastryTotal;
+      Console.WriteLine("---------------------------------");
+      Console.WriteLine("Complete order: " + BreadOrder.Count + " bread and " + PastryOrder.Count + " pastry");
+      Console.WriteLine("Total cost: $" + finalTotal);
 
-      static Pastries addPastries(string item)
-      {
-        Pastries pastry = new Pastries(item);
-        return pastry;
-      }  
-      
-
-
+      Console.WriteLine("");
+      System.Threading.Thread.Sleep(1000);
+      Console.BackgroundColor = ConsoleColor.DarkGreen;
+      Console.ForegroundColor = ConsoleColor.White;
+      Console.WriteLine("Thank you for shopping at Holden's Bakery! Please come again soon!!");     
     }
 
+    static Breads addBreads(string item)
+    {
+      Breads bread = new Breads(item);
+      return bread;
+    }
 
+    static Pastries addPastries(string item)
+    {
+      Pastries pastry = new Pastries(item);
+      return pastry;
+    }  
   }
+}
 
