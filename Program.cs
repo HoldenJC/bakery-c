@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Bakery.Goods; 
+using Bakery.Goods;
 
 namespace Bakery
 {
@@ -15,12 +15,14 @@ namespace Bakery
       int pastryCount = 0;
       int breadTotal = 0;
       int pastryTotal = 0;
-      int finalTotal = 0; 
+      int finalTotal = 0;
+      int breadDiscount = 0;
+      double discountPercent = 0.33;
       string itemChoice = "";
       string itemNumber = "";
       List<Breads> BreadOrder = new List<Breads>();
       List<Pastries> PastryOrder = new List<Pastries>();
-     
+
       Console.WriteLine("");
       Console.BackgroundColor = ConsoleColor.DarkGreen;
       Console.ForegroundColor = ConsoleColor.White;
@@ -44,7 +46,7 @@ namespace Bakery
       Console.WriteLine("Please enter your order below.");
       Console.ResetColor();
 
-      while(shopping == true)
+      while (shopping == true)
       {
         int itemNumberParsed = 0;
         string continueShop;
@@ -53,30 +55,33 @@ namespace Bakery
 
         Console.WriteLine("Type either 'bread' or 'pastry':");
         itemChoice = Console.ReadLine();
-        if(itemChoice != "bread" && itemChoice != "pastry")
+        if (itemChoice != "bread" && itemChoice != "pastry")
         {
           Console.ForegroundColor = ConsoleColor.Red;
           Console.WriteLine("Please enter a valid choice.");
           Console.ResetColor();
           stringCheck = true;
-        } else
+        }
+        else
         {
-          while(intCheck == false)
+          while (intCheck == false)
           {
             Console.WriteLine("How many would you like to add to your order? (numerical values only):");
             itemNumber = Console.ReadLine();
-            if(Regex.IsMatch(itemNumber, @"^\d+$") == false)
+            if (Regex.IsMatch(itemNumber, @"^\d+$") == false)
             {
               Console.ForegroundColor = ConsoleColor.Red;
               Console.WriteLine("Please enter a valid input.");
               Console.ResetColor();
-            } else
+            }
+            else
             {
               itemNumberParsed = int.Parse(itemNumber);
-              if(itemChoice == "bread")
+              if (itemChoice == "bread")
               {
                 breadCount += itemNumberParsed;
-              } else if(itemChoice == "pastry")
+              }
+              else if (itemChoice == "pastry")
               {
                 pastryCount += itemNumberParsed;
               }
@@ -84,23 +89,25 @@ namespace Bakery
             }
           }
         }
-        
-        while(stringCheck == false)
+
+        while (stringCheck == false)
         {
           Console.WriteLine("Would you like to add any other items to your order? ( y / n ):");
           continueShop = Console.ReadLine();
-          if(continueShop == "y")
+          if (continueShop == "y")
           {
             stringCheck = true;
             shopping = true;
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Current order: " + breadCount + " bread and " + pastryCount + " pastry");
             Console.ResetColor();
-          } else if (continueShop == "n")
+          }
+          else if (continueShop == "n")
           {
             stringCheck = true;
             shopping = false;
-         } else 
+          }
+          else
           {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Please enter a valid choice.");
@@ -108,75 +115,80 @@ namespace Bakery
           }
         }
 
-        if(itemChoice == "bread")
+        if (itemChoice == "bread")
         {
-          for(int i = 0; i < itemNumberParsed; i++)
+          for (int i = 0; i < itemNumberParsed; i++)
           {
             BreadOrder.Add(addBreads(itemChoice));
           }
-        } else if(itemChoice == "pastry")
+        }
+        else if (itemChoice == "pastry")
         {
-          for(int j = 0; j < itemNumberParsed; j++)
+          for (int j = 0; j < itemNumberParsed; j++)
           {
             PastryOrder.Add(addPastries(itemChoice));
           }
         }
+      }
 
-
-      } 
-      int breadDiscount = 0;
       int originalBread = BreadOrder.Count;
       pastryTotal = PastryOrder.Count * 2;
 
-      if( (BreadOrder.Count) / 2 >= 1  )
+      if ((BreadOrder.Count) / 2 >= 1)
       {
-        if((BreadOrder.Count % 2 == 0 || (BreadOrder.Count / 2) % 2 == 0) && BreadOrder.Count != 4)
+        double disc = 0;
+        int discComp = 0;
+        double breadC = BreadOrder.Count;
+        disc = breadC * discountPercent;
+        discComp = (int)Math.Floor(disc);
+        breadDiscount = (int)Math.Round(disc);
+
+        if (discComp < breadDiscount)
         {
           BreadOrder.Add(addBreads(itemChoice));
         }
-        breadDiscount = (BreadOrder.Count / 2) - 1;
-        if((BreadOrder.Count / 2) - 1 == 0)
-        {
-          breadDiscount = 1;
-        }
+
         breadTotal = (BreadOrder.Count * 5) - (breadDiscount * 5);
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Your bread order qualifies for one of our sales!"); 
+        Console.WriteLine("Your bread order qualifies for one of our sales!");
         System.Threading.Thread.Sleep(1000);
-        Console.Write("You have received " + (((originalBread*5)/5) - (breadTotal/5)) + " bread from your order for free!");
-        if((BreadOrder.Count - originalBread) > 0)
+        Console.Write("You have received " + (((originalBread * 5) / 5) - (breadTotal / 5)) + " bread from your order for free!");
+        if ((BreadOrder.Count - originalBread) > 0)
         {
           Console.WriteLine(" (plus " + (BreadOrder.Count - originalBread) + " extra!!)");
-        } else
+        }
+        else
         {
           Console.WriteLine("");
         }
         Console.ResetColor();
-      } else
+      }
+      else
       {
         breadTotal = (BreadOrder.Count * 5);
       }
-        
-      Console.WriteLine("Total breads you are getting: " + BreadOrder.Count); 
+
+      Console.WriteLine("Total breads you are getting: " + BreadOrder.Count);
       Console.WriteLine("Bread order total cost: $" + breadTotal);
-    
+
       System.Threading.Thread.Sleep(2000);
-      if( (PastryOrder.Count) / 3 >= 1  )
+      if ((PastryOrder.Count) / 3 >= 1)
       {
         int pastryDiscount;
         pastryDiscount = PastryOrder.Count / 3;
         pastryTotal -= pastryDiscount;
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Your pastry order qualifies for one of our sales!"); 
+        Console.WriteLine("Your pastry order qualifies for one of our sales!");
         System.Threading.Thread.Sleep(1000);
         Console.WriteLine("You have received $" + pastryDiscount + " off your order for buying " + PastryOrder.Count + " pastries!");
         Console.ResetColor();
-      } else
+      }
+      else
       {
         pastryTotal = PastryOrder.Count * 2;
       }
 
-      Console.WriteLine("Total pastries you are getting: " + PastryOrder.Count); 
+      Console.WriteLine("Total pastries you are getting: " + PastryOrder.Count);
       Console.WriteLine("Pastry order total cost: $" + pastryTotal);
 
       System.Threading.Thread.Sleep(2000);
@@ -191,7 +203,7 @@ namespace Bakery
       System.Threading.Thread.Sleep(1000);
       Console.BackgroundColor = ConsoleColor.DarkGreen;
       Console.ForegroundColor = ConsoleColor.White;
-      Console.WriteLine("Thank you for shopping at Holden's Bakery! Please come again soon!!");     
+      Console.WriteLine("Thank you for shopping at Holden's Bakery! Please come again soon!!");
     }
 
     static Breads addBreads(string item)
@@ -204,7 +216,7 @@ namespace Bakery
     {
       Pastries pastry = new Pastries(item);
       return pastry;
-    }  
+    }
   }
 }
 

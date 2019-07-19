@@ -24,7 +24,7 @@ _If you have any questions, ideas, concerns, or would like to contribute in some
 
 ## Technologies Used
 _C#,_
-_Visual Studio Code,_
+_Visual Studio Code_
 
 ### License
 
