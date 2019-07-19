@@ -11,10 +11,11 @@ namespace Bakery
     public static void Main()
     {
       bool shopping = true;
+      int breadCount = 0;
+      int pastryCount = 0;
       int breadTotal = 0;
       int pastryTotal = 0;
       int finalTotal = 0; 
-      string userOrder = "Current order: ";
       string itemChoice = "";
       string itemNumber = "";
       List<Breads> BreadOrder = new List<Breads>();
@@ -69,7 +70,13 @@ namespace Bakery
             } else
             {
               itemNumberParsed = int.Parse(itemNumber);
-              userOrder += itemNumber + " " + itemChoice;
+              if(itemChoice == "bread")
+              {
+                breadCount += itemNumberParsed;
+              } else if(itemChoice == "pastry")
+              {
+                pastryCount += itemNumberParsed;
+              }
               intCheck = true;
             }
           }
@@ -83,7 +90,7 @@ namespace Bakery
           {
             stringCheck = true;
             shopping = true;
-            userOrder += ", ";
+            Console.WriteLine("Current order: " + breadCount + " bread and " + pastryCount + " pastry");
           } else if (continueShop == "n")
           {
             stringCheck = true;
@@ -95,21 +102,18 @@ namespace Bakery
             Console.ResetColor();
           }
         }
-        Console.WriteLine(userOrder);
 
         if(itemChoice == "bread")
         {
           for(int i = 0; i < itemNumberParsed; i++)
           {
             BreadOrder.Add(addBreads(itemChoice));
-            Console.WriteLine(BreadOrder[i].Bread);
           }
         } else if(itemChoice == "pastry")
         {
           for(int j = 0; j < itemNumberParsed; j++)
           {
             PastryOrder.Add(addPastries(itemChoice));
-            Console.WriteLine(PastryOrder[j].Pastry);
           }
         }
 
@@ -134,7 +138,14 @@ namespace Bakery
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Your bread order qualifies for one of our sales!"); 
         System.Threading.Thread.Sleep(1000);
-        Console.WriteLine("You have received " + (((originalBread*5)/5) - (breadTotal/5)) + " breads from your order for free, plus " + (BreadOrder.Count - originalBread) + " extra!");
+        Console.Write("You have received " + (((originalBread*5)/5) - (breadTotal/5)) + " bread from your order for free!");
+        if((BreadOrder.Count - originalBread) > 0)
+        {
+          Console.WriteLine(" (plus " + (BreadOrder.Count - originalBread) + " extra!!)");
+        } else
+        {
+          Console.WriteLine("");
+        }
         Console.ResetColor();
       } else
       {
