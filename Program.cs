@@ -21,10 +21,12 @@ namespace Bakery
       List<Breads> BreadOrder = new List<Breads>();
       List<Pastries> PastryOrder = new List<Pastries>();
      
+      Console.WriteLine("");
       Console.BackgroundColor = ConsoleColor.DarkGreen;
       Console.ForegroundColor = ConsoleColor.White;
       Console.WriteLine("Welcome to Holden's Bakery!");
       Console.ResetColor();
+      Console.WriteLine("");
       System.Threading.Thread.Sleep(2000);
       Console.WriteLine("Our bakery currently offers bread and pastries.");
       System.Threading.Thread.Sleep(2000);
@@ -35,6 +37,7 @@ namespace Bakery
       Console.ForegroundColor = ConsoleColor.Green;
       Console.WriteLine("Buy 2 bread loafs, get 1 free.");
       Console.WriteLine("Save $1 per 3 pastries purchased.");
+      Console.WriteLine("");
       System.Threading.Thread.Sleep(2000);
       Console.BackgroundColor = ConsoleColor.Black;
       Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -90,7 +93,9 @@ namespace Bakery
           {
             stringCheck = true;
             shopping = true;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Current order: " + breadCount + " bread and " + pastryCount + " pastry");
+            Console.ResetColor();
           } else if (continueShop == "n")
           {
             stringCheck = true;
